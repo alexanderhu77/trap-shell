@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Trap SIGINT (Ctrl-C) and do nothing when it is received
+trap '' SIGINT
+# Trap SIGTSTP (Ctrl+Z) and do nothing when it is received
+# trap '' SIGTSTP
+
+echo -e "You have fallen for my trap, how will you get out of here now?"
+
+while true; do
+    read -r line
+
+
+    if [[ "$line" == "PLEASE GET ME OUT OF HERE" ]]; then
+        echo "Fine >:(, but first, let's play Rock, Paper, Scissors! Think fast!"
+
+        while true; do
+	    
+
+            #countdown=5
+            #while [ $countdown -gt 0 ]; do
+                
+             #   sleep 1
+              #  countdown=$((countdown - 1))
+            #done
+
+
+            # Read user input
+            echo -n "Enter your move (rock, paper, or scissors): "
+            read -t 5 -r user_move
+
+
+            if [[ -z "$user_move" ]]; then
+                echo "Time's up! You lose."
+                break
+            fi
+
+            # Validate the user's move
+            if [[ "$user_move" != "rock" && "$user_move" != "paper" && "$user_move" != "scissors" ]]; then
+                echo "Invalid move. Please choose rock, paper, or scissors."
+                continue
+            fi
+
+
+            choices=("rock" "paper" "scissors")
+            computer_move=${choices[$((RANDOM % 3))]}
+            echo "You chose: $user_move"
+            echo "I chose: $computer_move"
+
+            # Determine winner
+            if [[ "$user_move" == "$computer_move" ]]; then
+                echo "It's a tie! Let's try again."
+            elif [[ ("$user_move" == "rock" && "$computer_move" == "scissors") ||
+                    ("$user_move" == "scissors" && "$computer_move" == "paper") ||
+                    ("$user_move" == "paper" && "$computer_move" == "rock") ]]; then
+                echo "You win! You may exit now."
+                exit 0
+            else
+                echo "I win! You remain trapped. Try again."
+	    fi
+        done
+    else
+	echo "no, try something else"
+    fi
+
+done
